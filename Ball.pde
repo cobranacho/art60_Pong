@@ -33,7 +33,7 @@ class Ball {
   void resetBall(int direction) {
     int xIncrement = 0, yIncrement = 0;
 
-    xIncrement = int(random(1, 7)) * direction;
+    xIncrement = int(random(5, 7)) * direction;
 
     while (yIncrement == 0) {
       yIncrement = int(random(-4, 4));
@@ -44,7 +44,7 @@ class Ball {
 
   void updatePosition() {
     PVector pos = getPosition();
-    updatePosition(pos.x + velocity.x, pos.y + velocity.y);
+
     //if ((pos.x + velocity.x) > width)
     //  velocity.x = -1*velocity.x;
     //if ((pos.x + velocity.x) < 0)
@@ -53,7 +53,16 @@ class Ball {
       velocity.y = -1*velocity.y;    
     if ((pos.y + velocity.y) < 0)
       velocity.y = -1*velocity.y;
-  }
+
+    if (pos.x + r > rightPaddle.x && pos.y + r > rightPaddle.getY() && pos.y - r < rightPaddle.getY() + h
+      && velocity.x > 0  && pos.x < rightPaddle.x + rightPaddle.h) {
+      velocity.x = -1 * velocity.x;
+    } else if (pos.x - r < leftPaddle.x + leftPaddle.w && pos.y + r > leftPaddle.getY() && pos.y - r < leftPaddle.getY() + h 
+    && velocity.x < 0 ) {
+      velocity.x = -1 * velocity.x;
+    }
+    updatePosition(pos.x + velocity.x, pos.y + velocity.y);
+  } 
 
   void updatePosition(float x, float y) {
     // If we do not have the max number of frames

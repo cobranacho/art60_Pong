@@ -1,20 +1,29 @@
+boolean gameOver;
+
 Paddle leftPaddle, rightPaddle;
 boolean p1Up, p1Dn, p2Up, p2Dn;
 Numbers p1Score, p2Score;
 Net net;
 int xIncrement, yIncrement;
 Ball ball;
+
+Ball b;
+int distFromEdge = 150;
+int w = 16;
+int h = 120;
+
 void setup() {
   fullScreen();
-
-  leftPaddle = new Paddle(50);
-  rightPaddle = new Paddle(width - (50 + 10));
+  leftPaddle = new Paddle(distFromEdge, height / 2 - h / 2, w, h, color(0, 0, 255));
+  rightPaddle = new Paddle(width - distFromEdge - w, height / 2 - h / 2, w, h, color(255, 0, 0)); 
+  //leftPaddle = new Paddle(50);
+  //rightPaddle = new Paddle(width - (50 + 10));
   p1Score = new Numbers(240, 40);
   p2Score = new Numbers(width - (240 + 20), 40);
   net = new Net(24);
-  
+
   while (xIncrement > -2 && xIncrement < 2 ) {
-    xIncrement = int(random(-7, 7));    
+    xIncrement = int(random(-7, 7));
   }
   while (yIncrement == 0) {
     yIncrement = int(random(-4, 4));
@@ -27,6 +36,7 @@ void draw() {
   background(0);
   p1Score.display();
   p2Score.display();
+
   leftPaddle.update();
   rightPaddle.update();
   net.display();
@@ -63,9 +73,7 @@ void keyPressed() {
     p1Up = false;
   } else if (key == 'b') {
     p1Score.plus();
-    p2Score.plus();
-    p2Score.plus();
-    leftPaddle.reducePaddle();
+  
   }
 }
 
@@ -105,50 +113,62 @@ class Net {
 }
 
 
-class Paddle {
-  int xPos, yPos;
-  int paddleHeight;
-  int paddleWidth;
+//class Paddle {
+//  // Number of positions for streak effect
+//  int streakFrames = 15;
 
-  Paddle(int x_) {
-    paddleHeight = 60;
-    paddleWidth = 10;
-    xPos = x_;
-    yPos = height / 2 - paddleHeight / 2;
-  }  
+//  // List of previous y-positions for streak effect
+//  int[] positions = new int[streakFrames];
+//  // Index of the oldest/newest positions
+//  int newestPosition = 0, oldestPosition = 0;
+//  // Size and axis location of the paddle
+//  color streakColor;
+  
+//  int xPos, yPos;
+ 
+//  int paddleHeight;
+//  int paddleWidth;
 
-  void reducePaddle() {
-    paddleHeight -= 4;
-    if (paddleHeight < 30) {
-      paddleHeight = 30;
-    }
-  }
+//  Paddle(int x_) {
+// //   positions[newestPosition++] = yPos;
+//    paddleHeight = 80;
+//    paddleWidth = 10;
+//    xPos = x_;
+//    yPos = height / 2 - paddleHeight / 2;
+//  }  
 
-  void update() {
-    if (xPos > width / 2) {
-      if (p2Up) {
-        yPos -= 5;
-      } else if (p2Dn) {
-        yPos += 5;
-      }
-    } else {
-      if (p1Up) {
-        yPos -= 5;
-      } else if (p1Dn) {
-        yPos += 5;
-      }
-    }
+//  void reducePaddle() {
+//    paddleHeight -= 4;
+//    if (paddleHeight < 30) {
+//      paddleHeight = 30;
+//    }
+//  }
 
-    yPos = constrain(yPos, 0, height - paddleHeight);
-    display();
-  }
+//  void update() {
+//    if (xPos > width / 2) {
+//      if (p2Up) {
+//        yPos -= 5;
+//      } else if (p2Dn) {
+//        yPos += 5;
+//      }
+//    } else {
+//      if (p1Up) {
+//        yPos -= 5;
+//      } else if (p1Dn) {
+//        yPos += 5;
+//      }
+//    }
 
-  void display() {
-    fill(255);
-    noStroke();
-    rect(xPos, yPos, paddleWidth, paddleHeight);
-  }
-}
+//    yPos = constrain(yPos, 0, height - paddleHeight);
+//    display();
+//  }
+
+//  void display() {
+//    fill(255);
+//    noStroke();
+//    rect(xPos, yPos, paddleWidth, paddleHeight);
+//  }
+//}
 
 
 

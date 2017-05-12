@@ -17,8 +17,8 @@ int w;
 int h;
 
 void setup() {
-  // fullScreen();
-  size(800, 600);
+  fullScreen();
+  //size(800, 600);
   noCursor();
   minim = new Minim(this);
   out = minim.loadFile("out.mp3");

@@ -1,4 +1,4 @@
-class Ball { //<>//
+  class Ball { //<>//
   // List of previous positions for streak effect
   ArrayList<PVector> positions = new ArrayList<PVector>();
   // Velocity of the ball 

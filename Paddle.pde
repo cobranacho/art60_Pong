@@ -10,47 +10,51 @@ class Paddle {
   int x, w, h;
   // Color of the streak
   color streakColor;
-
-  private Paddle() {
-  }
-
+  int paddleHeading;
+  float paddleReductionFactor;
+  
   Paddle(int x, int y, int w, int h, color col) {
     positions[newestPosition++] = y;
     this.x = x;
     this.w = w;
     this.h = h;
     streakColor = col;
+    paddleReductionFactor = h / 20.0;
   }
 
   void reducePaddleHeight() {
-      h -= 10;
+  
+    h -= round(paddleReductionFactor);
+    updatePosition(getY() + round(paddleReductionFactor / 2.0));
   }
-  void update(){
+
+
+  void update() {
     int y = getY();
-   if (x > width / 2) {
-     if (p2Up) {
-       y -= 7;
-     } else if (p2Dn) {
-       y += 7;
-     }
-   } else {
-     if (p1Up) {
-       y -= 7;
-     } else if (p1Dn) {
-       y += 7;
-     }
-   }
+    if (x > width / 2) {
+      if (p2Up) {
+        y -= height / 90;
+      } else if (p2Dn) {
+        y += height / 90;
+      }
+    } else {
+      if (p1Up) {
+        y -= height / 90;
+      } else if (p1Dn) {
+        y += height / 90;
+      }
+    }
 
-   y = constrain(y, 0, height - h);
-  updatePosition(y);
-  draw();
+    y = constrain(y, 0, height - h);
+    updatePosition(y);
+    drawPaddle();
   }
 
-  int getY(){  
-    if(newestPosition < streakFrames){
-     return positions[newestPosition - 1];
+  int getY() {  
+    if (newestPosition < streakFrames) {
+      return positions[newestPosition - 1];
     }
-    return positions[(streakFrames + oldestPosition - 1) % streakFrames];    
+    return positions[(streakFrames + oldestPosition - 1) % streakFrames];
   }
 
   void updatePosition(int y) {
@@ -63,9 +67,11 @@ class Paddle {
       // Update the value of oldest position 
       oldestPosition %= streakFrames;
     }
+    paddleHeading = positions[newestPosition - 1] - positions[oldestPosition];
+    ball.setSpin(paddleHeading);
   }
 
-  void draw() {
+  void drawPaddle() {
     int frames = min(newestPosition, streakFrames);
     float step = 1.0/(newestPosition - 1);
     noStroke();

@@ -1,4 +1,4 @@
-class Ball {
+class Ball { //<>//
   // List of previous positions for streak effect
   ArrayList<PVector> positions = new ArrayList<PVector>();
   // Velocity of the ball 
@@ -7,18 +7,19 @@ class Ball {
   int oldestPosition = 0;
   // Number of positions for streak effect
   int streakFrames = 10;
-  // Size of the ball
+  // Radius of the ball
   int r;
   // Color of the streak
   color streakColor;
+  // Counter to track current number of frame current ball is in play
+  int counter;
+  float spin;
 
-  Ball(int x0, int y0, int r, color col, PVector vel) {
-    positions.add(new PVector(x0, y0));
+  Ball(int r, color col) {
     this.r = r;
     streakColor = col;
-    velocity = new PVector(vel.x, vel.y);
+    resetBall(round(random(-1, 1)));
   }
-
 
   PVector getPosition() {
     PVector pos;
@@ -31,38 +32,69 @@ class Ball {
   }
 
   void resetBall(int direction) {
-    int xIncrement = 0, yIncrement = 0;
+    float xIncrement, yIncrement;
 
-    xIncrement = int(random(5, 7)) * direction;
-
-    while (yIncrement == 0) {
-      yIncrement = int(random(-4, 4));
+    if (direction >= 0) {
+      xIncrement = width / 240.0;
+    } else {
+      xIncrement = width / -240.0;
     }
-    velocity = new PVector (xIncrement, yIncrement);
+    yIncrement = random(-5, 5) * width / 1200.0;
+    if (yIncrement == 0) {
+      yIncrement = 3;
+    }
+    velocity = new PVector(xIncrement, yIncrement);
     updatePosition(width/2, height/2);
   }
 
   void updatePosition() {
+    counter++;
     PVector pos = getPosition();
 
-    //if ((pos.x + velocity.x) > width)
-    //  velocity.x = -1*velocity.x;
-    //if ((pos.x + velocity.x) < 0)
-    //  velocity.x = -1*velocity.x;    
-    if ((pos.y + velocity.y) > height)
-      velocity.y = -1*velocity.y;    
-    if ((pos.y + velocity.y) < 0)
+    // Top and bottom screen collision
+    if ((pos.y + r) > height && pos.x + r < width && pos.x - r > 0) {
+      playBeep();
       velocity.y = -1*velocity.y;
-
+    }
+    if ((pos.y - r) < 0 && pos.x + r < width && pos.x - r > 0) {
+      playBeep();
+      velocity.y = -1*velocity.y;
+    }
+    // Paddle collision
     if (pos.x + r > rightPaddle.x && pos.y + r > rightPaddle.getY() && pos.y - r < rightPaddle.getY() + h
-      && velocity.x > 0  && pos.x < rightPaddle.x + rightPaddle.h) {
+      && velocity.x > 0  && pos.x - r < rightPaddle.x + rightPaddle.w) {
+      playBeep();
       velocity.x = -1 * velocity.x;
+      velocity.y += spin;
     } else if (pos.x - r < leftPaddle.x + leftPaddle.w && pos.y + r > leftPaddle.getY() && pos.y - r < leftPaddle.getY() + h 
-    && velocity.x < 0 ) {
+      && velocity.x < 0 && pos.x + r > leftPaddle.x) {
+      playBeep();
       velocity.x = -1 * velocity.x;
+      velocity.y += spin;
     }
     updatePosition(pos.x + velocity.x, pos.y + velocity.y);
-  } 
+
+    if (counter % 360 == 0) {
+      if ((velocity.x < width / 100 && velocity.x > -width / 100) && (velocity.y < width / 100 && velocity.y > -width / 100)) {  
+        velocity.mult(1.2);
+      }
+    }
+  }
+
+  void playBeep() {
+    if (beep.position() == beep.length()) {
+      beep.rewind();
+      beep.play();
+    } else {
+      beep.play();
+    }
+  }
+
+  void setSpin(float paddleSpeed) {
+    if (paddleSpeed != 0) {
+      spin = paddleSpeed / 40.0;
+    }
+  }
 
   void updatePosition(float x, float y) {
     // If we do not have the max number of frames
@@ -76,7 +108,8 @@ class Ball {
     }
   }
 
-  void draw() {
+  void drawBall() {
+
     PVector pos;
     int frames = min(positions.size(), streakFrames);
     float step = 1.0/(frames - 1);

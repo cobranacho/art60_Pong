@@ -22,13 +22,13 @@ class Paddle {
     paddleReductionFactor = h / 20.0;
   }
 
-  void reducePaddleHeight() {
-  
+  // method to reducd the paddle size
+  void reducePaddleHeight() {  
     h -= round(paddleReductionFactor);
     updatePosition(getY() + round(paddleReductionFactor / 2.0));
   }
 
-
+  // paddle speed is porportional to the screen height
   void update() {
     int y = getY();
     if (x > width / 2) {
@@ -67,8 +67,9 @@ class Paddle {
       // Update the value of oldest position 
       oldestPosition %= streakFrames;
     }
+    // calculate the difference of current position to the oldest position stored in the positins array
     paddleHeading = positions[newestPosition - 1] - positions[oldestPosition];
-    ball.setSpin(paddleHeading);
+    ball.setSpin(paddleHeading);  // send the paddingHeading to the ball to generate spin
   }
 
   void drawPaddle() {

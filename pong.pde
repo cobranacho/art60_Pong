@@ -3,15 +3,17 @@ Minim minim;
 AudioPlayer out;
 AudioPlayer beep;
 
+// game state (true or false) to detect game over condition (one of the score reaches 11)
 boolean gameInPlay;
 
 Paddle leftPaddle, rightPaddle;
 boolean p1Up, p1Dn, p2Up, p2Dn;
 Numbers p1Score, p2Score;
 Net net;
-Ball ball;
+// Add 2nd Ball Object
+Ball ball, ball2;
 
-Ball b;
+// Paddle width and height and 
 int distFromEdge;
 int w;
 int h;
@@ -24,6 +26,7 @@ void setup() {
   out = minim.loadFile("out.mp3");
   beep = minim.loadFile("beep.mp3");
 
+  // Initialize all game objects with sizes and positions relative to sketch screen size
   distFromEdge = width / 20;
   w = width / 85;
   h = height / 7;
@@ -44,6 +47,7 @@ void draw() {
   p2Score.display();
 
   if (gameInPlay) {
+    // normal game play update
     leftPaddle.update();
     rightPaddle.update();
     net.display();
@@ -51,20 +55,21 @@ void draw() {
     ball.drawBall();
     checkGameState();
   } else {
-    // net.display();
+    // display when gameIsOver == true
     leftPaddle.drawPaddle();
     rightPaddle.drawPaddle();
     displayGameOver();
   }
 }
 
+// method to draw the game over text 
 void displayGameOver() {
   fill(255);
-  textSize(width / 14);
+  textSize(width / 16);
   textAlign(CENTER);
   text("GAME OVER", width / 2, height / 2.5);
 
-  textSize(width / 22);
+  textSize(width / 24);
   if (p1Score.getScore() > p2Score.getScore()) {
     text("PLAYER 1 WINS!", width / 2, height / 2 + height / 8);
   } else {
@@ -74,7 +79,7 @@ void displayGameOver() {
   text("PRESS ANY KEY TO PLAY AGAIN", width / 2, height / 2 + height / 3.5);
 }
 
-
+// play the out audio when ball is out of bound
 void playOutOfBoundSound() {
   if (out.position() == out.length()) {
    out.rewind();
@@ -85,13 +90,18 @@ void playOutOfBoundSound() {
 }
 
 void checkGameState() {
-
+  
+  // check if the ball reaches the left or right edge of the screen
   if (ball.getPosition().x > width + ball.r || ball.getPosition().x < 0 - ball.r) {
     playOutOfBoundSound();
   }
-
+ 
+  // play the out audio until the ball progresses further out of bound, effectively creating 
+  // a pause of game play before a new ball position if generated
   if (ball.getPosition().x > width + width / 3) {
     p1Score.plus();
+    
+    // for every 2 score points reduced the paddle height to increase game difficulty
     if ((p1Score.theNumber + p2Score.theNumber) % 2 == 0) {
       leftPaddle.reducePaddleHeight();
       rightPaddle.reducePaddleHeight();
@@ -109,6 +119,7 @@ void checkGameState() {
   }
 }
 
+// reset Game state when the players decide to play again
 void resetGame() {
   p1Score.theNumber = 0;
   p2Score.theNumber = 0;
@@ -120,7 +131,8 @@ void resetGame() {
   rightPaddle.updatePosition(height / 2 - h / 2);
   gameInPlay = !gameInPlay;
 }
-
+// player2 (rightPaddle) controls up and down movement with UP and DOWN arrow keys
+// Player1 (leftPaddle) controls up and down movement with 'a', 'A', and 'z', 'Z' keys
 void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
@@ -136,7 +148,7 @@ void keyPressed() {
   } else if (key == 'z' || key == 'Z') {
     p1Dn = true;
     p1Up = false;
-  } else if (!gameInPlay) {
+  } else if (!gameInPlay) {  // if game is over any key will restart the game
     resetGame();
   }
 }

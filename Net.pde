@@ -2,6 +2,7 @@ class Net {
   int n;
   int h;
   int w;
+  // Net constructor that takes an int parameter to determine the net spacing
   Net (int n_) {
     n = n_;
     h = (height) / (2 * n);

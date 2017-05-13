@@ -33,8 +33,8 @@ void setup() {
   leftPaddle = new Paddle(distFromEdge, height / 2 - h / 2, w, h, color(0, 0, 255));
   rightPaddle = new Paddle(width - distFromEdge - w, height / 2 - h / 2, w, h, color(255, 0, 0)); 
 
-  p1Score = new Number(width / 4, height / 16, 1 * width / 1000.0);
-  p2Score = new Number(width - (width / 4 + int(20 * width / 1000.0)), height / 16, 1 * width / 1000.0);
+  p1Score = new Number(width / 4, height / 16, 1 * width / 1200.0);
+  p2Score = new Number(width - (width / 4 + int(20 * width / 1200.0)), height / 16, 1 * width / 1200.0);
   net = new Net(30);
 
   ball = new Ball(height / 80, color( 23, 100, 28));

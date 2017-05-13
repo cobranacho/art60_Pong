@@ -1,9 +1,9 @@
 
-class Numbers {
+class Number {
   int theNumber; 
   int xPos, yPos;
   float scale;
-  Numbers(int xPos_, int yPos_, float scale_) {
+  Number(int xPos_, int yPos_, float scale_) {
     xPos = xPos_;
     yPos = yPos_;
     scale = scale_;

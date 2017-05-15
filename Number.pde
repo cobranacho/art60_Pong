@@ -35,98 +35,110 @@ class Number {
     
     switch(theNumber) {
     case 0: 
+      stroke(255, 255,255);
       beginShape();
       vertex(0, 0);
-      vertex(24, 0);
-      vertex(24, 60);
+      vertex(20, 0);
+      vertex(20, 60);
       vertex(0, 60);
       endShape(CLOSE);
       break;
     case 1:
-      line(24, -3, 24, 63);
+      stroke (255, 127, 0);
+      line(20, -3, 20, 63);
       break;
     case 2:
+      stroke(255, 255, 0);
       beginShape();
       vertex(-6, 0);
-      vertex(24, 0);
-      vertex(24, 30);
-      vertex(0, 30);
+      vertex(20, 0);
+      vertex(20, 26);
+      vertex(0, 26);
       vertex(0, 60);
-      vertex(30, 60);
+      vertex(26, 60);
       endShape();
       break;
     case 3:
+      stroke (0, 255, 0);
       beginShape();
       vertex(-6, 0);
-      vertex(24, 0);
-      vertex(24, 60);
+      vertex(20, 0);
+      vertex(20, 60);
       vertex(-6, 60);
       endShape();
-      line(-6, 30, 20, 30);
+      line(-6, 26, 20, 26);
       break;
     case 4:
+      stroke(0, 255, 255);
       beginShape();
       vertex(0, -3);
-      vertex(0, 30);
-      vertex(24, 30);
+      vertex(0, 26);
+      vertex(20, 26);
       endShape();
-      line(24, -3, 24, 63);
+      line(20, -3, 20, 63);
       break;
     case 5:
+      stroke(0, 127, 255);
       beginShape();
-      vertex(30, 0);
+      vertex(26, 0);
       vertex(0, 0);
-      vertex(0, 30);
-      vertex(24, 30);
-      vertex(24, 60);
+      vertex(0, 26);
+      vertex(20, 26);
+      vertex(20, 60);
       vertex(-6, 60);
       endShape();
       break;
     case 6:
+      stroke(0, 0, 255);
       beginShape();
       vertex(0, -3);
       vertex(0, 60);
-      vertex(24, 60);
-      vertex(24, 30);
-      vertex(0, 30);
+      vertex(20, 60);
+      vertex(20, 26);
+      vertex(0, 26);
       endShape();
       break;
     case 7:
+      stroke(127, 0, 255);
       beginShape();
       vertex(-6, 0);
-      vertex(24, 0);
-      vertex(24, 60);
+      vertex(20, 0);
+      vertex(20, 60);
       endShape();
       break;
     case 8:
+      stroke (255, 0, 255);
       beginShape();
       vertex(0, 0);
-      vertex(24, 0);
-      vertex(24, 60);
+      vertex(20, 0);
+      vertex(20, 60);
       vertex(0, 60);
       endShape(CLOSE);
-      line(0, 30, 24, 30);
+      line(0, 26, 20, 26);
       break;
     case 9:
+      stroke (255, 0, 127);
       beginShape();
-      vertex(24, 63);
-      vertex(24, 0);
+      vertex(20, 63);
+      vertex(20, 0);
       vertex(0, 0);
-      vertex(0, 30);
-      vertex(24, 30);
+      vertex(0, 26);
+      vertex(20, 26);
       endShape();
       break;
     case 10:
+      stroke (238, 139, 238);
       beginShape();
       vertex(0, 0);
-      vertex(24, 0);
-      vertex(24, 60);
+      vertex(20, 0);
+      vertex(20, 60);
       vertex(0, 60);
       endShape(CLOSE);
       line(-30, -3, -30, 63);
       break;
     case 11:
-      line(24, -3, 24, 63);
+      stroke(255, 0, 0);
+      line(20, -3, 20, 63);
       line(-30, -3, -30, 63);
       break;
     }

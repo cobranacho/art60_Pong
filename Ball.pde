@@ -37,11 +37,11 @@
     
     // generate the x component of the velocity vector for direction and speed
     if (direction >= 0) {
-      xIncrement = width / 240.0;
+      xIncrement = width / 220.0;
     } else {
-      xIncrement = width / -240.0;
+      xIncrement = width / -220.0;
     }
-    
+
     // generate the y component of the velocity vector for angle
     yIncrement = random(-5, 5) * width / 1200.0;
     if (yIncrement == 0) {
